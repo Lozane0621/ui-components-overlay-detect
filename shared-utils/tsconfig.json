@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",  // 输出目标，确保兼容大部分环境
+    "module": "esnext",  // 保持模块格式为 ES Module，以便 Rollup 处理
+    "declaration": true,  // 生成 `.d.ts` 类型定义文件
+    "declarationMap": true,  // 生成 `.d.ts.map` 映射文件
+    "outDir": "./dist",  // 输出目录
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "noEmitOnError": false,  // 禁用类型错误时阻止输出
+    "lib": ["dom", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "shared-utils": ["../shared-utils/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

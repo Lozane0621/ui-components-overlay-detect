@@ -1,0 +1,20 @@
+{
+  "name": "xtop-ui-components-overlay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:all": "pnpm -r run dev",
+    "build:all": "pnpm -r run build",
+    "dev:element-ui": "pnpm --filter element-ui-demo run dev",
+    "dev:element-plus": "pnpm --filter element-plus-demo run dev",
+    "dev:ant-design-vue": "pnpm --filter ant-design-vue-demo run dev",
+    "build:element-ui": "pnpm --filter element-ui-demo run build",
+    "build:element-plus": "pnpm --filter element-plus-demo run build",
+    "build:ant-design-vue": "pnpm --filter ant-design-vue-demo run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

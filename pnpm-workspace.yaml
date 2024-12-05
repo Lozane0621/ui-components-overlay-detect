@@ -1,0 +1,3 @@
+packages:
+  - 'packages/*'
+  - 'shared-utils'  # 添加共享utils目录
