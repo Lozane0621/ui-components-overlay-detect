@@ -28,7 +28,6 @@
       "require": "./dist/index.cjs.js",
       "import": "./dist/index.esm.js",
       "umd": "./dist/index.umd.js"
-    },
-    "./*": "./dist/*"
+    }
   }
 }
