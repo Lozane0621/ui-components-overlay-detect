@@ -29,6 +29,7 @@ jobs:
       - name: Build the  project
         run: |
           pnpm build:all  # 你可以根据自己的构建命令来修改这一行
+          working-directory: ui-components-overlay-detect
       - name: Check dist folders
         run: |
           ls -al packages/element-ui-demo/dist
@@ -44,7 +45,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOEKN }}
-          publish_dir: ./packages/element-ui-demo/dist  # 发布目录
+          publish_dir: packages/element-ui-demo/dist  # 发布目录
           destination_dir: element-ui-demo # 部署路径
           
   deploy-element-plus:
@@ -55,7 +56,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOEKN }}
-          publish_dir: ./packages/element-plus-demo/dist  # 发布目录
+          publish_dir: packages/element-plus-demo/dist  # 发布目录
           destination_dir: element-plus-demo # 部署路径
           
   deploy-ant-design-vue:
@@ -66,5 +67,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOEKN }}
-          publish_dir: ./packages/ant-design-vue-demo/dist  # 发布目录
+          publish_dir: packages/ant-design-vue-demo/dist  # 发布目录
           destination_dir: ant-design-vue-demo # 部署路径
