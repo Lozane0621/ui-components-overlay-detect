@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - master  # 当代码推送到 `master` 分支时触发构建
+      
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -21,9 +27,14 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install
-      - name: Build the shared-utils project
+      - name: Build the  project
         run: |
           pnpm build:all  # 你可以根据自己的构建命令来修改这一行
+      - name: Check dist folders
+        run: |
+          ls -al packages/element-ui-demo/dist
+          ls -al packages/element-plus-demo/dist
+          ls -al packages/ant-design-vue-demo/dist
       
           
   deploy-element-ui:
