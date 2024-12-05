@@ -3,12 +3,11 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # 当代码推送到 `main` 分支时触发构建
+      - master  # 当代码推送到 `master` 分支时触发构建
 
 jobs:
-  install_dependencies:
+  build:
     runs-on: ubuntu-latest  # 设置运行环境为 Ubuntu
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3  # 拉取代码到 CI 环境
@@ -17,122 +16,42 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v2  # 安装 pnpm
-        with:
-          version: 7  # 设置 pnpm 版本为 7
-
-      - name: Install dependencies
-        run: pnpm install  # 安装所有依赖，包括 `shared-utils`
-        
-  build-shared-utils:
-    runs-on: ubuntu-latest
-    needs: install_dependencies
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
       - name: Setup pnpm
         run: npm install -g pnpm   
       - name: Install dependencies
         run: |
-          cd shared-utils
           pnpm install
-
       - name: Build the shared-utils project
         run: |
-          cd shared-utils
-          pnpm build  # 你可以根据自己的构建命令来修改这一行
+          pnpm build:all  # 你可以根据自己的构建命令来修改这一行
+      
           
-  build-element-ui:
+  deploy-element-ui:
     runs-on: ubuntu-latest
-    needs: build-shared-utils  # 确保 shared-utils 构建完成后再构建这个子项目
+    needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Setup pnpm
-        run: npm install -g pnpm   
-      - name: Install dependencies
-        run: |
-          cd packages/element-ui-demo
-          pnpm install
-
-      - name: Build the element-ui-demo project
-        run: |
-          cd packages/element-ui-demo
-          pnpm build  # 你可以根据自己的构建命令来修改这一行
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: packages/element-ui-demo/dist  # 发布目录
           destination_dir: element-ui-demo  # 部署路径
-
-  build-element-plus:
+          
+  deploy-element-plus:
     runs-on: ubuntu-latest
-    needs: build-shared-utils  # 确保 shared-utils 构建完成后再构建这个子项目
+    needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Setup pnpm
-        run: npm install -g pnpm  
-      - name: Install dependencies
-        run: |
-          cd packages/element-plus-demo
-          pnpm install
-
-      - name: Build the element-plus-demo project
-        run: |
-          cd packages/element-plus-demo
-          pnpm run build
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: packages/element-plus-demo/dist  # 发布目录
           destination_dir: element-plus-demo  # 部署路径
-
-  build-ant-design-vue:
+          
+  deploy-ant-design-vue:
     runs-on: ubuntu-latest
-    needs: build-shared-utils  # 确保 shared-utils 构建完成后再构建这个子项目
+    needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Setup pnpm
-        run: npm install -g pnpm  
-
-      - name: Install dependencies
-        run: |
-          cd packages/ant-design-vue-demo
-          pnpm install
-
-      - name: Build the ant-design-vue-demo project
-        run: |
-          cd packages/ant-design-vue-demo
-          pnpm run build
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
