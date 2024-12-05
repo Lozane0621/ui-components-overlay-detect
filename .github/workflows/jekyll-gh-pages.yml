@@ -46,26 +46,26 @@ jobs:
         with:
           github_token: ${{ secrets.GH_TOEKN }}
           publish_dir: packages/element-ui-demo/dist  # 发布目录
-          destination_dir: ''  # 部署路径
+          destination_dir: element-ui-demo  # 部署路径
           
-  # deploy-element-plus:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v4
-  #       with:
-  #         github_token: ${{ secrets.GH_TOEKN }}
-  #         publish_dir: packages/element-plus-demo/dist  # 发布目录
-  #         destination_dir: element-plus-demo  # 部署路径
+  deploy-element-plus:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_TOEKN }}
+          publish_dir: packages/element-plus-demo/dist  # 发布目录
+          destination_dir: element-plus-demo  # 部署路径
           
-  # deploy-ant-design-vue:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v4
-  #       with:
-  #         github_token: ${{ secrets.GH_TOEKN }}
-  #         publish_dir: packages/ant-design-vue-demo/dist  # 发布目录
-  #         destination_dir: ant-design-vue-demo  # 部署路径
+  deploy-ant-design-vue:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_TOEKN }}
+          publish_dir: packages/ant-design-vue-demo/dist  # 发布目录
+          destination_dir: ant-design-vue-demo  # 部署路径
