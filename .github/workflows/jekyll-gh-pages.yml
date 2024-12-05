@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3  # 拉取代码到 CI 环境
         with:
-          path: /home/runner/work/ui-components-overlay-detect  # 自定义工作目录  
+          path: ./ui-components-overlay-detect  # 修改为相对路径，避免重复 
         
       - name: Set up Node.js
         uses: actions/setup-node@v2
