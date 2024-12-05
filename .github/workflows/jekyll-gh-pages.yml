@@ -3,7 +3,7 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # 当代码推送到 `main` 分支时触发构建
+      - master  # 当代码推送到 `main` 分支时触发构建
 
 jobs:
   build-shared-utils:
