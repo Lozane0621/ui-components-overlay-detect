@@ -1,7 +1,13 @@
+type MessageType = "click";
 interface Message {
-  type: string;
-  popupElement?: HTMLElement;
+  category: "MICROFE";
+  message: {
+    type: MessageType;
+    [x: string]: any;
+  }
 }
+
+const MESSAGE_NAMESPACE = "MICROFE";
 
 type ComponentLib = 'element-ui' | 'element-plus' | 'ant-design-vue' | 'x-ui' | 'x-ui-plus'
 
@@ -18,6 +24,7 @@ interface DetectFunction {
   (...args: any[]): boolean;  // 支持接受任意个数和类型的参数
 }
 
+
 // 默认组件库的前缀映射
 const defaultPrefixes: Record<ComponentLib, string> = {
   'element-ui': 'el',
@@ -33,7 +40,7 @@ type DebouncedFunction = (...args: any[]) => void;
 function debounce(func: DebouncedFunction, wait: number, immediate: boolean = false): DebouncedFunction {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
-  return function(this: any, ...args: any[]) {
+  return function (this: any, ...args: any[]) {
     const context = this;
     const later = () => {
       timeout = null;
@@ -56,12 +63,17 @@ function debounce(func: DebouncedFunction, wait: number, immediate: boolean = fa
 
 // 监听来自主应用的消息
 window.addEventListener('message', (event: MessageEvent) => {
-  const message: Message = event.data;
-
-  // 处理来自主应用的click消息
-  if (message.type === 'click') {
-    // 模拟点击事件触发关闭弹窗或下拉框
-    triggerClickEventInSubApp();
+  let { data } = event;
+  try {
+    data = typeof data === "object" ? data : JSON.parse(data);
+  } catch (evt) { }
+  const { category, message } = data as Message;
+  if (category === MESSAGE_NAMESPACE && message) {
+    // 处理来自主应用的click消息
+    if (message.type === 'click') {
+      // 模拟点击事件触发关闭弹窗或下拉框
+      triggerClickEventInSubApp();
+    }
   }
 });
 
@@ -70,7 +82,7 @@ window.addEventListener('message', (event: MessageEvent) => {
 function triggerClickEventInSubApp(): void {
   console.log('子应用收到点击事件，模拟点击关闭其他弹层');
 
-   // 模拟 click 事件
+  // 模拟 click 事件
   const clickEvent = new MouseEvent('click', {
     bubbles: true,
     cancelable: true,
@@ -158,7 +170,7 @@ function detectPopupForAntDesignVue(prefix: string): boolean {
   // 使用 querySelectorAll 查找所有的 Drawer 元素，class 为 ${prefix}-drawer。
   // 对每个 Drawer，我们检查它的遮罩层 (${prefix}-drawer-mask) 和是否包含 ${prefix}-drawer-open 类。
   // 如果遮罩层存在且该类存在，说明 Drawer 正在打开。
-  const drawers = document.querySelectorAll(`.${prefix}-drawer`)as NodeListOf<HTMLElement>;
+  const drawers = document.querySelectorAll(`.${prefix}-drawer`) as NodeListOf<HTMLElement>;
   for (const drawer of Array.from(drawers)) {
     const drawerMask = drawer.querySelector(`.${prefix}-drawer-mask`);
     if (drawerMask && drawer.classList.contains(`${prefix}-drawer-open`)) {
@@ -266,9 +278,25 @@ const startObservePopups: StartObservePopups = (componentLibs = 'all', customDet
 
     // 根据弹窗是否打开，发送消息
     if (isPopupOpen) {
-      window.parent.postMessage({ type: 'popup-opened' }, '*');
+      window.parent?.postMessage(
+        {
+          category: MESSAGE_NAMESPACE,
+          message: {
+            type: "popup-opened",
+          },
+        },
+        "*"
+      );
     } else {
-      window.parent.postMessage({ type: 'popup-closed' }, '*');
+      window.parent?.postMessage(
+        {
+          category: MESSAGE_NAMESPACE,
+          message: {
+            type: "popup-closed",
+          },
+        },
+        "*"
+      );
     }
     console.timeEnd('检查弹窗是否打开耗时：');
   }, 30);
