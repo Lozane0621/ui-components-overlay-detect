@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,19 +26,63 @@ jobs:
         run: pnpm install
       - name: Build the project
         run: pnpm build:all
-      - name: Deploy element-ui-demo to GitHub Pages
+      - name: Cache dist directories
+        uses: actions/cache@v3
+        with:
+          path: |
+            packages/element-ui-demo/dist
+            packages/element-plus-demo/dist
+            packages/ant-design-vue-demo/dist
+          key: ${{ runner.os }}-dist-${{ github.sha }}
+
+  deploy-element-ui:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Restore cached dist directory
+        uses: actions/cache@v3
+        with:
+          path: packages/element-ui-demo/dist
+          key: ${{ runner.os }}-dist-${{ github.sha }}
+      - name: Debug dist directory
+        run: ls -al packages/element-ui-demo/dist
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: packages/element-ui-demo/dist
           destination_dir: element-ui-demo
-      - name: Deploy element-plus-demo to GitHub Pages
+
+  deploy-element-plus:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Restore cached dist directory
+        uses: actions/cache@v3
+        with:
+          path: packages/element-plus-demo/dist
+          key: ${{ runner.os }}-dist-${{ github.sha }}
+      - name: Debug dist directory
+        run: ls -al packages/element-plus-demo/dist
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: packages/element-plus-demo/dist
           destination_dir: element-plus-demo
-      - name: Deploy ant-design-vue-demo to GitHub Pages
+
+  deploy-ant-design-vue:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Restore cached dist directory
+        uses: actions/cache@v3
+        with:
+          path: packages/ant-design-vue-demo/dist
+          key: ${{ runner.os }}-dist-${{ github.sha }}
+      - name: Debug dist directory
+        run: ls -al packages/ant-design-vue-demo/dist
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
