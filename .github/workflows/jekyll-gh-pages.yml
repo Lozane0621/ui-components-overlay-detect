@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # 拉取代码到 CI 环境
+      - name: Initialize correct git directory
+        run: |
+          echo "Resetting git to correct directory"
+          git config --global --unset-all safe.directory || true
+          cd $GITHUB_WORKSPACE
+          git init
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
