@@ -9,8 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import { iframeAppInit, startObservePopups } from 'shared-utils';
-
-iframeAppInit();
+iframeAppInit(router);
 startObservePopups();
 
 import './assets/main.css';

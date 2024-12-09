@@ -1,12 +1,10 @@
-import router from "@/router";
-
 // iframeAppInit
-const iframeAppInit = () => {
+const iframeAppInit = (router) => {
   // 子应用->主应用
 router.afterEach((to) => {
   // 路由必须存在
   if (to.matched.length) {
-    window.top.postMessage(
+    window.top?.postMessage(
       {
         category: "MICROFE",
         message: {
@@ -28,7 +26,7 @@ window.addEventListener("message", (e) => {
       // 有路由的系统
       router.push(message.path).finally(() => {
         // 执行跳转完成以后要回传完成事件消息
-        window.top.postMessage(
+        window.top?.postMessage(
           {
             category: "MICROFE",
             message: {
