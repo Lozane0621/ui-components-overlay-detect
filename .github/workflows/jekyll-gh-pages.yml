@@ -17,12 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # 拉取代码到 CI 环境
-      - name: Initialize correct git directory
-        run: |
-          echo "Resetting git to correct directory"
-          git config --global --unset-all safe.directory || true
-          cd $GITHUB_WORKSPACE
-          git init
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -41,10 +35,16 @@ jobs:
           ls -al packages/element-plus-demo/dist
           ls -al packages/ant-design-vue-demo/dist
 
+          
+
   deploy-element-ui:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Debug build output
+        run: |
+          echo "Checking build output..."
+          ls -al /home/runner/work/ui-components-overlay-detect/ui-components-overlay-detect/packages/element-ui-demo/dist || echo "Dist directory does not exist!"
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
