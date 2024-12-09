@@ -23,9 +23,9 @@ jobs:
       - name: Setup pnpm
         run: npm install -g pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --filter=ant-design-vue-demo... --filter=element-plus-demo... --filter=element-ui-demo...
       - name: Build the project
-        run: pnpm build:all
+        run: pnpm build --filter=ant-design-vue-demo... --filter=element-plus-demo... --filter=element-ui-demo...
       - name: Deploy element-ui-demo to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

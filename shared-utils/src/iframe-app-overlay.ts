@@ -1,10 +1,9 @@
-import debounce from './debounce';
 interface Message {
   type: string;
   popupElement?: HTMLElement;
 }
 
-type ComponentLib = 'element-ui' | 'element-plus' | 'ant-design-vue';
+type ComponentLib = 'element-ui' | 'element-plus' | 'ant-design-vue' | 'x-ui' | 'x-ui-plus'
 
 interface ComponentLibConfig {
   name: ComponentLib;
@@ -24,7 +23,35 @@ const defaultPrefixes: Record<ComponentLib, string> = {
   'element-ui': 'el',
   'element-plus': 'el',
   'ant-design-vue': 'ant',
+  'x-ui': 'xq',
+  'x-ui-plus': 'xq',
 };
+
+type DebouncedFunction = (...args: any[]) => void;
+
+// 防抖函数
+function debounce(func: DebouncedFunction, wait: number, immediate: boolean = false): DebouncedFunction {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  return function(this: any, ...args: any[]) {
+    const context = this;
+    const later = () => {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout as ReturnType<typeof setTimeout>);
+
+    timeout = setTimeout(later, wait);
+
+    if (callNow) {
+      func.apply(context, args);
+    }
+  };
+}
 
 
 // 监听来自主应用的消息
@@ -167,7 +194,6 @@ function detectPopupForAntDesignVue(prefix: string): boolean {
 }
 
 
-
 // 主侦测函数
 const startObservePopups: StartObservePopups = (componentLibs = 'all', customDetectFunction) => {
   console.log('组件库弹窗侦测机制已启动...');
@@ -178,6 +204,8 @@ const startObservePopups: StartObservePopups = (componentLibs = 'all', customDet
     'element-ui': detectPopupForElementUI,
     'element-plus': detectPopupForElementPlus,
     'ant-design-vue': detectPopupForAntDesignVue,
+    'x-ui': detectPopupForElementUI,// 复用 Element UI 的检测函数
+    'x-ui-plus': detectPopupForElementPlus, // 复用 Element Plus 的检测函数
     // 其他更多的组件库，如iview, vuetify,material-ui,primevue,naive-ui,arco-design-vue...
   };
 

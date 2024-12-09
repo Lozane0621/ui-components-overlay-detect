@@ -9,7 +9,8 @@ This project manages UI components with a microfrontend architecture.
 - `pnpm dev:all`: Start all sub-projects in development mode.
 - `pnpm build:all`: Build all sub-projects.
 
-## Contributing
+## Contributing:q
+
 Follow the coding style and run `pnpm lint` before submitting changes.
 
 ## website
