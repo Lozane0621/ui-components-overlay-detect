@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ant-design-vue-demo/',
+  base: '/ui-components-overlay-detect/ant-design-vue-demo/',
   plugins: [
     vue(),
     vueJsx(),

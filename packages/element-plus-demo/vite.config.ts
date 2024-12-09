@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/element-ui-demo/',
+  base: '/ui-components-overlay-detect/element-ui-demo/',
   plugins: [
     vue(),
     vueJsx(),

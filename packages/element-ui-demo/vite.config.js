@@ -7,7 +7,7 @@ import vue2Jsx from '@vitejs/plugin-vue2-jsx';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/element-ui-demo/',
+  base: '/ui-components-overlay-detect/element-ui-demo/',
   plugins: [
     vue2(),
     vue2Jsx(),
