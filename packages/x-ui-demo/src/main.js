@@ -10,7 +10,7 @@ Vue.use(XUI);
 
 import { iframeAppInit, startObservePopups } from 'shared-utils';
 iframeAppInit(router);
-startObservePopups();
+startObservePopups('x-ui');
 
 import './assets/main.css';
 

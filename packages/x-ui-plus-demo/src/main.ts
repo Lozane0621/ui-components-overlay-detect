@@ -11,7 +11,7 @@ import '@xquant/x-ui-plus/dist/index.css'
 
 import { iframeAppInit, startObservePopups } from 'shared-utils';
 iframeAppInit(router);
-startObservePopups();
+startObservePopups('x-ui-plus');
 
 const app = createApp(App)
 app.use(XUIPlus);

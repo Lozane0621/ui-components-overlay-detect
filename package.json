@@ -16,6 +16,7 @@
     "build:ant-design-vue": "pnpm --filter ant-design-vue-demo run build",
     "build:x-ui": "pnpm --filter x-ui-demo run build",
     "build:x-ui-plus": "pnpm --filter x-ui-plus-demo run build",
+    "build:github": "pnpm --filter element-ui-demo... --filter element-plus-demo... --filter ant-design-vue-demo... run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
