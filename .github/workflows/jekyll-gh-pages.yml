@@ -29,7 +29,6 @@ jobs:
       - name: Build the  project
         run: |
           pnpm build:all  # 你可以根据自己的构建命令来修改这一行
-          working-directory: /
       - name: Check dist folders
         run: |
           ls -al packages/element-ui-demo/dist
